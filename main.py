@@ -1,21 +1,24 @@
-# https://twitter.com/LShishou
 # https://www.instagram.com/leoo_esteves1/
 # https://github.com/DotcomPeep
 
-#from typing import List
 from selenium import webdriver
-#from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import logging
 import time
 import pandas as pd
+import os
+from dotenv import load_dotenv
 from openpyxl import Workbook
-#from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 from ips import get_ip_data
 
+load_dotenv()
 
 class PFSenseAutomation:
+
+    PFSENSE_HOSTNAME = os.getenv('PFSENSE_HOSTNAME')
+    PFSENSE_PASSWORD = os.getenv('PFSENSE_PASSWORD')
+
     def __init__(self, username, password):
         self.username = username
         self.password = password
@@ -91,20 +94,16 @@ class ExcelFileCreator:
         workbook.save(filename)
         logging.info("Excel file saved and finalized!")
 
-
 def main():
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s %(name)s %(levelname)s %(message)s',
-        filename='..\ipsvpn\logs.txt',
+        filename='./logs.txt',
         filemode='w',
         encoding='utf-8'
     )
 
-    firewall_username = 'Inform the user'
-    firewall_pwd = 'Inform the pass'
-
-    pfsense_automation = PFSenseAutomation(firewall_username, firewall_pwd)
+    pfsense_automation = PFSenseAutomation(PFSenseAutomation.PFSENSE_HOSTNAME, PFSenseAutomation.PFSENSE_PASSWORD)
     pfsense_automation.initialize_browser()
     pfsense_automation.login()
     pfsense_automation.access_openvpn_menu()

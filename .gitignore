@@ -1,0 +1,4 @@
+.env
+dados.xlsx
+logs.txt
+__pycache__
