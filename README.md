@@ -5,5 +5,7 @@
 PFSENSE_HOSTNAME="Your Username"
 PFSENSE_PASSWORD="Your password"
 ```
+### Install requirements.txt (pip install -r requirements.txt)
+### You must have Python installed
 
 ## Thanks to Nathan Florencio for his help: [Github](https://github.com/nathanflorencio)
