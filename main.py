@@ -1,6 +1,7 @@
 # https://www.instagram.com/leoo_esteves1/
 # https://github.com/DotcomPeep
 
+import openpyxl
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import logging
@@ -122,7 +123,22 @@ def main():
         result.append(item)
 
     ExcelFileCreator.create_excel_file(result, 'dados.xlsx')
+    
+    # Open Excel file to add missing hostnames
+    excel_filename = 'dados.xlsx'
+    workbook = openpyxl.load_workbook(excel_filename)
+    sheet = workbook.active
 
+    sheet['E1'] = "IPs sem Hostname"
+
+    # Iterate over the result list to find IPs with missing hostnames
+    none_hostnames = [item["ip_address"] for item in result if item["hostname"] is None]
+
+    # Fill column E with IPs that have missing hostnames
+    for i, ip in enumerate(none_hostnames):
+        sheet[f'E{2 + i}'] = ip
+
+    workbook.save(excel_filename)
 
 if __name__ == "__main__":
     main()
