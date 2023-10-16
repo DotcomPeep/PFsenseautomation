@@ -206,7 +206,7 @@ def main():
         workbook = openpyxl.load_workbook(excel_filename)
         sheet = workbook.active
 
-        sheet['E1'] = "IPs livres"
+        sheet['E1'] = "Free IP's"
 
         # Iterate over the result list to find IPs with missing hostnames
         none_hostnames = [item["ip_address"] for item in result if item["hostname"] is None]
@@ -215,7 +215,7 @@ def main():
         for i, ip in enumerate(none_hostnames):
             sheet[f'E{2 + i}'] = ip
 
-        sheet['I1'] = "Usuários sem regras"
+        sheet['I1'] = "Users without rules"
 
         # Fill column i with users who do not have a rule
         for i, username in enumerate(users_not_matching):
