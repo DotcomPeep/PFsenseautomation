@@ -28,11 +28,11 @@ class PFSenseAutomation:
     def initialize_browser(self):
         try:
             self.driver = webdriver.Chrome()
-            self.driver.get('Enter your url here')
+            self.driver.get('Enter your URL here')
             self.driver.maximize_window()
             logging.info("Opening Chrome and entering PFSense!")
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
     def login(self):
         try:
@@ -55,7 +55,7 @@ class PFSenseAutomation:
             logging.info("User Logged!")
             time.sleep(3)
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
     def access_openvpn_menu(self):
         try:
@@ -64,7 +64,7 @@ class PFSenseAutomation:
             logging.info("Accessing the OpenVPN page")
             time.sleep(1)
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
         try:
             openvpn = self.driver.find_element(By.XPATH, '//*[@id="pf-navbar"]/ul[1]/li[5]/ul/li[3]/a')
@@ -72,7 +72,7 @@ class PFSenseAutomation:
             logging.info("OpenVPN page found")
             time.sleep(1)
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
     def get_user_ip_data(self):
         try:
@@ -82,27 +82,27 @@ class PFSenseAutomation:
             logging.info("Found the list of Common names and IP's. Checking...")
             time.sleep(3)
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
         try:
             users = self.driver.find_elements(By.XPATH, '//*[@id="2"]/div/div/div[2]/table/tbody/tr/td[2]')
             user_list = [user.text for user in users]
             logging.info("Getting list of Common names...")
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
         try:
             ips = self.driver.find_elements(By.XPATH, '//*[@id="2"]/div/div/div[2]/table/tbody/tr/td[3]')
             ips_list = [ip.text for ip in ips]
             logging.info("Getting list of IP's...")
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
         try:
             data = [{"hostname": user, "ip_address": ip} for user, ip in zip(user_list, ips_list)]
             logging.info("List of created Hostnames and IPs")
         except Exception as exc:
-            logging.info(exc)
+            logging.error(exc)
 
         return data
 
@@ -206,7 +206,7 @@ def main():
         workbook = openpyxl.load_workbook(excel_filename)
         sheet = workbook.active
 
-        sheet['E1'] = "Free IP's"
+        sheet['E1'] = "IPs livres"
 
         # Iterate over the result list to find IPs with missing hostnames
         none_hostnames = [item["ip_address"] for item in result if item["hostname"] is None]
@@ -215,7 +215,7 @@ def main():
         for i, ip in enumerate(none_hostnames):
             sheet[f'E{2 + i}'] = ip
 
-        sheet['I1'] = "Users without rules"
+        sheet['I1'] = "Usuários sem regras"
 
         # Fill column i with users who do not have a rule
         for i, username in enumerate(users_not_matching):
