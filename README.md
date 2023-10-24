@@ -8,4 +8,8 @@ PFSENSE_PASSWORD="Your password"
 ### Install requirements.txt (pip install -r requirements.txt)
 ### You must have Python installed
 
+### PFSense's Version
+2.6.0-RELEASE (amd64)
+FreeBSD 12.3-STABLE
+
 ## Thanks to Nathan Florencio for his help: [Github](https://github.com/nathanflorencio)
